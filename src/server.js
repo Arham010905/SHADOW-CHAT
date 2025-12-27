@@ -1,5 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import http from "http";
 import { Server } from "socket.io";
 import crypto from "crypto";
@@ -15,11 +20,25 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
   },
 });
 
-app.use(cors());
+// Security middleware
+app.use(helmet());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+  credentials: true
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later."
+});
+app.use(limiter);
+
 app.use(express.json());
 
 /* -------------------- BASIC HEALTH CHECK -------------------- */
@@ -28,7 +47,7 @@ app.get("/", (req, res) => {
 });
 
 /* -------------------- AUTH CONFIG -------------------- */
-const JWT_SECRET = "CHANGE_THIS_SECRET";
+const JWT_SECRET = process.env.JWT_SECRET || "CHANGE_THIS_SECRET";
 
 /* -------------------- PUBLIC AUTH ROUTES -------------------- */
 
@@ -116,7 +135,8 @@ io.on("connection", (socket) => {
 });
 
 /* -------------------- START SERVER -------------------- */
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  console.log(`📝 Environment: ${process.env.NODE_ENV || "development"}`);
 });
