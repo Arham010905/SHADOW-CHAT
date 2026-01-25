@@ -18,7 +18,11 @@ export default function authMiddleware(req, res, next) {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
+
+    // Attach identity to request
     req.wallet = payload.wallet;
+    req.shortId = payload.shortId;   // 👈 this is the new line for alias system
+
     next();
   } catch (err) {
     return res.status(401).json({ error: "Invalid token" });
