@@ -1,7 +1,7 @@
 {
   "name": "encrypted-chat-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "SHADOW CHAT is a secure, privacy-focused chat application featuring end-to-end encryption and automatic message deletion (self-destructing/ephemeral messages).\r Designed for users who prioritize confidentiality, SHADOW CHAT ensures that conversations leave no permanent trace—messages automatically delete after a set time or upon being read, \r preventing long-term storage or recovery.",
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js",
@@ -15,11 +15,24 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
-    "ioredis": "^5.8.2",
+    "ioredis": "^5.9.2",
     "jsonwebtoken": "^9.0.3",
-    "socket.io": "^4.8.1"
+    "redis": "^5.10.0",
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
-  }
+  },
+  "main": "wallet-test.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arham010905/SHADOW-CHAT.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arham010905/SHADOW-CHAT/issues"
+  },
+  "homepage": "https://github.com/Arham010905/SHADOW-CHAT#readme"
 }
