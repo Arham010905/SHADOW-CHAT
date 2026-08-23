@@ -36,9 +36,10 @@ const io = new Server(server, {
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+  origin: "http://localhost:5173",
   credentials: true
 }));
+
 
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000,
@@ -63,7 +64,7 @@ app.post("/auth/nonce", async (req, res) => {
   if (!wallet) return res.status(400).json({ error: "Wallet required" });
 
   const nonce = crypto.randomBytes(16).toString("hex");
-  await redis.set(`nonce:${wallet}`, nonce, "EX", 300);
+  await redis.set(`nonce:${wallet}`, nonce, "EX", 1800);
 
   res.json({ nonce });
 });

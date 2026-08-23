@@ -1,7 +1,7 @@
 import { Wallet, verifyMessage } from "ethers";
 
-const PRIVATE_KEY = "0xf2cf7e0a5665b15476e66bae387c7abbc8a191135324db782bfc41ccfe09580f";
-const nonce = "34ec79f6d990772352867123b002f863";
+const PRIVATE_KEY = "0x681a2409669A556Ee0b858D006E4d945E54Fa3A7";
+const nonce = "a02dbf3ed181c20863787c126732425e";
 
 const wallet = new Wallet(PRIVATE_KEY);
 
